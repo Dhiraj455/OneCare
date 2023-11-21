@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, TextField, Box, Grid } from "@mui/material";
-import { addUser, getUser, updateUser } from "../Services/student";
+import { addUser, getUser, updateUser } from "../Services/users";
 
 function UserForm({ id }) {
   const [data, setData] = useState([]);
@@ -16,8 +16,10 @@ function UserForm({ id }) {
   const addOrUpdateUser = (data) => {
     if (id === 1) {
       addUser(data);
+      window.location.href = "/";
     } else {
       updateUser(id, data);
+      window.location.href = "/";
     }
   };
   return (

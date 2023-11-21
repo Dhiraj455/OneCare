@@ -6,10 +6,24 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Button, Stack } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { deleteUser } from "../Services/users";
 
 function BasicTable({ userData }) {
-  function createData(fname, lname, email, age, gender, country, state, city) {
-    return { fname, lname, email, age, gender, country, state, city };
+  function createData(
+    id,
+    fname,
+    lname,
+    email,
+    age,
+    gender,
+    country,
+    state,
+    city
+  ) {
+    return { id, fname, lname, email, age, gender, country, state, city };
   }
 
   const [rows, setRows] = useState([]);
@@ -19,6 +33,7 @@ function BasicTable({ userData }) {
       setRows((prev) => [
         ...prev,
         createData(
+          user.id,
           user.firstName,
           user.lastName,
           user.Email,
@@ -31,6 +46,17 @@ function BasicTable({ userData }) {
       ]);
     });
   }, [userData]);
+
+  const updateUser = (id) => {
+    window.location.href = `/update/${id}`;
+  };
+
+  const deleteUsers = (id) => {
+    deleteUser(id).then((res) => {
+      alert("User Deleted Successfully");
+      window.location.reload();
+    });
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -63,8 +89,24 @@ function BasicTable({ userData }) {
               <TableCell align="centre">{row.state}</TableCell>
               <TableCell align="centre">{row.city}</TableCell>
               <TableCell align="centre">
-                <button>Edit</button>
-                <button>Delete</button>
+                <Stack direction="row" spacing={2}>
+                  <Button
+                    variant="outlined"
+                    color="warning"
+                    startIcon={<EditIcon />}
+                    onClick={() => updateUser(row.id)}
+                  >
+                    Update
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => deleteUsers(row.id)}
+                  >
+                    Delete
+                  </Button>
+                </Stack>
               </TableCell>
             </TableRow>
           ))}
