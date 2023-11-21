@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, TextField, Box, Grid } from "@mui/material";
 import { addUser, getUser, updateUser } from "../Services/student";
+
 function UserForm({ id }) {
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -74,6 +75,20 @@ function UserForm({ id }) {
             value={data.Age}
             onChange={(e) => {
               setData({ ...data, Age: e.target.value });
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            required
+            fullWidth
+            id="gender"
+            label="Gender"
+            name="gender"
+            autoComplete="gender"
+            value={data.Gender}
+            onChange={(e) => {
+              setData({ ...data, Gender: e.target.value });
             }}
           />
         </Grid>

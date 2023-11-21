@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Table from '../Components/Table'
 import { getAllUsers } from "../Services/student";
 
 function Users() {
-    const [users, setUsers] = React.useState([]);
-    React.useEffect(() => {
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
         getAllUsers().then((doc) => {
             setUsers(doc);
         });

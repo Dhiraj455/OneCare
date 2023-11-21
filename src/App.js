@@ -12,12 +12,14 @@ const darkTheme = createTheme({
 
 function App() {
   return (
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <div className="App">
         <h1>Hello Guys</h1>
         <Users />
         {/* <AddAndUpdateUser id={"CYXV2RriIIUjMO3eihnx"}/> */}
-      </ThemeProvider>
+      </div>
+    </ThemeProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,16 +7,30 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-export default function BasicTable({ userData }) {
+function BasicTable({ userData }) {
   function createData(fname, lname, email, age, gender, country, state, city) {
     return { fname, lname, email, age, gender, country, state, city };
   }
 
-  const rows = [];
+  const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    console.log(userData);
-  }, []);
+    userData.map((user) => {
+      setRows((prev) => [
+        ...prev,
+        createData(
+          user.firstName,
+          user.lastName,
+          user.Email,
+          user.Age,
+          user.Gender,
+          user.Country,
+          user.State,
+          user.City
+        ),
+      ]);
+    });
+  }, [userData]);
 
   return (
     <TableContainer component={Paper}>
@@ -30,12 +44,13 @@ export default function BasicTable({ userData }) {
             <TableCell align="centre">Country</TableCell>
             <TableCell align="centre">State</TableCell>
             <TableCell align="centre">City</TableCell>
+            <TableCell align="centre">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row, index) => (
             <TableRow
-              key={row.fname}
+              key={index}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell align="centre">
@@ -47,6 +62,10 @@ export default function BasicTable({ userData }) {
               <TableCell align="centre">{row.country}</TableCell>
               <TableCell align="centre">{row.state}</TableCell>
               <TableCell align="centre">{row.city}</TableCell>
+              <TableCell align="centre">
+                <button>Edit</button>
+                <button>Delete</button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -54,3 +73,5 @@ export default function BasicTable({ userData }) {
     </TableContainer>
   );
 }
+
+export default BasicTable;
