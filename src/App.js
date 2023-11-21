@@ -1,18 +1,23 @@
-import { useEffect } from 'react';
-import './App.css';
-import { getAllUsers } from './Services/student';
+import "./App.css";
+import Users from "./Pages/Users";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import AddAndUpdateUser from "./Pages/AddAndUpdateUser";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 function App() {
-
-  useEffect(() => {
-    getAllUsers();
-  },[]);
   return (
-    <div className="App">
-      <header className="App-header">
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
         <h1>Hello Guys</h1>
-      </header>
-    </div>
+        <Users />
+        {/* <AddAndUpdateUser id={"CYXV2RriIIUjMO3eihnx"}/> */}
+      </ThemeProvider>
   );
 }
 
