@@ -44,6 +44,7 @@ function BasicTable({ userData }) {
           user.City
         ),
       ]);
+      return 0;
     });
   }, [userData]);
 
