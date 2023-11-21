@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, TextField, Box, Grid } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Box,
+  Grid,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 import { addUser, getUser, updateUser } from "../Services/users";
 
 function UserForm({ id }) {
@@ -13,12 +22,32 @@ function UserForm({ id }) {
     }
   }, [id]);
 
-  const addOrUpdateUser = (data) => {
+  const addOrUpdateUser = async (data) => {
+    console.log(data);
+    let emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+    if (
+      data.firstName === undefined ||
+      data.lastName === undefined ||
+      data.firstName === "" ||
+      data.lastName === ""
+    ) {
+      alert("Please enter your name");
+      return;
+    } else if (data.Email === "" || !emailRegex.test(data.Email)) {
+      alert("Please enter valid email");
+      return;
+    } else if (data.Age === "") {
+      alert("Please enter your age");
+      return;
+    } else if (data.Country === "" || data.State === "" || data.City === "") {
+      alert("Please enter valid location");
+      return;
+    }
     if (id === 1) {
-      addUser(data);
+      await addUser(data);
       window.location.href = "/";
     } else {
-      updateUser(id, data);
+      await updateUser(id, data);
       window.location.href = "/";
     }
   };
@@ -35,7 +64,7 @@ function UserForm({ id }) {
             autoFocus
             value={data.firstName}
             onChange={(e) => {
-              setData({ ...data, firstName: e.target.value });
+              setData({ ...data, firstName: e.target.value.trim() });
             }}
           />
         </Grid>
@@ -48,7 +77,7 @@ function UserForm({ id }) {
             name="lastName"
             value={data.lastName}
             onChange={(e) => {
-              setData({ ...data, lastName: e.target.value });
+              setData({ ...data, lastName: e.target.value.trim() });
             }}
           />
         </Grid>
@@ -62,7 +91,7 @@ function UserForm({ id }) {
             autoComplete="email"
             value={data.Email}
             onChange={(e) => {
-              setData({ ...data, Email: e.target.value });
+              setData({ ...data, Email: e.target.value.trim() });
             }}
           />
         </Grid>
@@ -76,12 +105,29 @@ function UserForm({ id }) {
             autoComplete="age"
             value={data.Age}
             onChange={(e) => {
-              setData({ ...data, Age: e.target.value });
+              setData({ ...data, Age: e.target.value.trim() });
             }}
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
+          <FormControl fullWidth>
+            <InputLabel id="Gender">Gender</InputLabel>
+            <Select
+              required
+              id="gender"
+              name="gender"
+              value={data.Gender}
+              label="Gender"
+              onChange={(e) => {
+                setData({ ...data, Gender: e.target.value });
+              }}
+            >
+              <MenuItem value="Male">Male</MenuItem>
+              <MenuItem value="Female">Female</MenuItem>
+              <MenuItem value="Others">Others</MenuItem>
+            </Select>
+          </FormControl>
+          {/* <TextField
             required
             fullWidth
             id="gender"
@@ -90,9 +136,9 @@ function UserForm({ id }) {
             autoComplete="gender"
             value={data.Gender}
             onChange={(e) => {
-              setData({ ...data, Gender: e.target.value });
+              setData({ ...data, Gender: e.target.value.trim() });
             }}
-          />
+          /> */}
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
@@ -104,7 +150,7 @@ function UserForm({ id }) {
             autoComplete="country"
             value={data.Country}
             onChange={(e) => {
-              setData({ ...data, Country: e.target.value });
+              setData({ ...data, Country: e.target.value.trim() });
             }}
           />
         </Grid>
@@ -118,7 +164,7 @@ function UserForm({ id }) {
             autoComplete="state"
             value={data.State}
             onChange={(e) => {
-              setData({ ...data, State: e.target.value });
+              setData({ ...data, State: e.target.value.trim() });
             }}
           />
         </Grid>
@@ -132,7 +178,7 @@ function UserForm({ id }) {
             autoComplete="city"
             value={data.City}
             onChange={(e) => {
-              setData({ ...data, City: e.target.value });
+              setData({ ...data, City: e.target.value.trim() });
             }}
           />
         </Grid>
